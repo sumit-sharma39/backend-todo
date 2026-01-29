@@ -22,7 +22,7 @@ const GoogleAuth=  async (req, res) => {
     
     // insert into database 
     const result = await database_conn.query(
-        "INSERT INTO users(email, password_hash) VALUES($1, $2)",
+        "INSERT INTO accounts(email, password_hash) VALUES($1, $2)",
         [email, hashedpassword]
         );
     

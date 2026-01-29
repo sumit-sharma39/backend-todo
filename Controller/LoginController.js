@@ -10,7 +10,7 @@ const Login = async (req, res) => {
         }
 
         const result = await database_conn.query(
-        "SELECT  password FROM users WHERE LOWER(email) = LOWER($1)",
+        "SELECT  password FROM accounts WHERE LOWER(email) = LOWER($1)",
         [email]
         );
 

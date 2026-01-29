@@ -9,7 +9,7 @@ const Register = async (req, res) => {
 
         // Check if user already exists
         const check = await database_conn.query(
-        "SELECT 1 FROM users WHERE email = $1",
+        "SELECT 1 FROM accounts WHERE email = $1",
         [email]
         );
 
@@ -23,7 +23,7 @@ const Register = async (req, res) => {
 
         // Insert new user
         await database_conn.query(
-        "INSERT INTO users (email, password_hash) VALUES ($1, $2)",
+        "INSERT INTO accounts (email, password_hash) VALUES ($1, $2)",
         [email, hashedPassword]
         );
         console.log("User registered  email");
