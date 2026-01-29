@@ -6,7 +6,7 @@ const Tasks_Display = async (req, res) => {
     const result = await Database_conn.query(`
       SELECT id, title, description, bullets, deadline, completed, image_url
       FROM task
-      WHERE user_id = ?
+      WHERE user_id = $1
       ORDER BY id DESC;
     `,[user_id] );
     // console.log(result);

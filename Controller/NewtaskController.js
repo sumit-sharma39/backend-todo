@@ -3,6 +3,8 @@ const Database_conn = require("../Database/Database");
 const New_task =  async (req, res) => {
         const {title , description, Points, date ,completed , user_id} = req.body;
         console.log("req.body=" , req.body)
+
+        
         try{
         const query = `
         INSERT into task (title, description, bullets, deadline, completed , user_id)
