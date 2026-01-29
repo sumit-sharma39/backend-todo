@@ -15,15 +15,16 @@ const GoogleAuth=  async (req, res) => {
     });
 
     const payload = checked.getPayload();
+    const user_id = payload.sub; 
     const email = payload.email;
     const password = "google_user";
     const saltRounds = 10;
     const hashedpassword = await bcrypt.hash(password, saltRounds); // hashing of password
-    
+    console.log("user_id is " , user_id);
     // insert into database 
     const result = await database_conn.query(
-        "INSERT INTO accounts(email, password) VALUES($1, $2)",
-        [email, hashedpassword]
+        "INSERT INTO accounts(user_id, email, password) VALUES($1, $2 , $3)",
+        [ user_id,email, hashedpassword]
         );
     
     if(result.rowCount>0){
