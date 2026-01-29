@@ -1,12 +1,12 @@
 const Database_conn = require("../Database/Database");
 
 const New_task =  async (req, res) => {
-        const {title , description, Points, date ,completed} = req.body;
+        const {title , description, Points, date ,completed , user_id} = req.body;
         console.log("req.body=" , req.body)
         try{
         const query = `
-        INSERT into task (title, description, bullets, deadline, completed)
-        values ($1, $2, $3, $4, $5)
+        INSERT into task (title, description, bullets, deadline, completed , user_id)
+        values ($1, $2, $3, $4, $5 , $6)
         returning *;
         `;
 
@@ -15,7 +15,8 @@ const New_task =  async (req, res) => {
         description || "",
         Points,
         date || null,
-        completed ?? False
+        completed ?? False,
+        user_id
         ];
 
         const result = await Database_conn.query(query  , values);

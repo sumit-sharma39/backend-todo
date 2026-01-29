@@ -2,11 +2,13 @@ const Database_conn = require("../Database/Database");
 
 const Tasks_Display = async (req, res) => {
     try {
+      const user_id = req.params.userId;
     const result = await Database_conn.query(`
-      select id, title, description, bullets, deadline, completed,image_url
-      from task
-      order by id DESC
-    `);
+      SELECT id, title, description, bullets, deadline, completed, image_url
+      FROM task
+      WHERE user_id = ?
+      ORDER BY id DESC;
+    `,[user_id] );
     // console.log(result);
 
       res.status(200).json({data: result.rows})

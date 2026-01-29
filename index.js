@@ -1,7 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const cookiesparser = require("cookie-parser");
 
+//linking of all the files.
 const New_task = require("./Controller/NewtaskController");
 const TaskCompleted = require("./Controller/TaskCompletedController");
 const DeleteTask = require("./Controller/DeleteTaskController");
@@ -10,19 +12,42 @@ const Tasks_Display = require("./Controller/TasksController");
 const UploadImage = require("./Controller/ImageUploaderController");
 const EditTask  =require("./Controller/EditTaskController");
 const Task_Display = require("./Controller/TaskdisplayController")
+const Login = require("./Controller/LoginController");
+const Register = require("./Controller/ResgisterController");
+const GoogleAuth = require ("./Controller/GoogleAuth");
+const GoogleLogin = require ("./Controller/GoogleLogin");
 
-
-
+// const authMiddleware = require ("./middleware/Auth");
+// const AuthRoutes = require("./auth");
 const app= express();
+
+//middleswares.
 app.use(cors());
 app.use(express.json());
+// app.use(cookiesparser());
+// app.use("/auth" , AuthRoutes);
 
+// this is for the 
+// app.get("/profile", authMiddleware, (req, res) => {
+// res.json({
+// message: "You are authenticated",
+// userId: req.user.id,
+// });
+// });
+
+
+//Roures of API
+
+app.post("/Login" , Login)
+app.post("/Register" , Register);
+app.post("/Gregister" , GoogleAuth);
+app.post("/GoogleLogin" , GoogleLogin);
 app.post("/Add" , New_task);
 app.delete ("/Delete" , DeleteTask );
 app.post("/UploadImage/:id", Upload.single("image_url"), UploadImage);
 app.put("/Completed/:id" , TaskCompleted);
 app.patch("/UpdateTask/:id" , EditTask);
-app.get("/Data" , Tasks_Display);
+app.get("/Data/:userId" , Tasks_Display);
 app.get("/Task/:id" , Task_Display);
 
 
