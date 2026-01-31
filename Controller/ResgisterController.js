@@ -3,14 +3,17 @@ const bcrypt = require("bcrypt");
 
 const Register = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        console.log("req.body: " , req.body);
+        const { user_id, email, password } = req.body;
 
         console.log("Register request received with email:", email);
+
+
 
         // Check if user already exists
         const check = await database_conn.query(
         "SELECT 1 FROM accounts WHERE email = $1",
-        [email]
+        [user_id]
         );
 
         if (check.rowCount > 0) {
@@ -23,8 +26,8 @@ const Register = async (req, res) => {
 
         // Insert new user
         await database_conn.query(
-        "INSERT INTO accounts (email, password) VALUES ($1, $2)",
-        [email, hashedPassword]
+        "INSERT INTO accounts (user_id ,email, password) VALUES ($1, $2)",
+        [user_id , email, hashedPassword]
         );
         console.log("User registered  email");
 
