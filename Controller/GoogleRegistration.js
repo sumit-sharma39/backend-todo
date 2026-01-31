@@ -14,13 +14,14 @@ const RegGoogleAuth=  async (req, res) => {
 
     const payload = checked.getPayload();
     const email = payload.email;
+    const userid = payload.user_id;
     const password = "google_user";
     const saltRounds = 10;
     const hashedpassword = await bcrypt.hash(password, saltRounds); // hashing of password
 
     const result = await database_conn.query(
-        "INSERT INTO users(email, password_hash) VALUES($1, $2)",
-        [email, hashedpassword]
+        "INSERT INTO users(user_id , email, password_hash) VALUES($1, $2 , $3)",
+        [ userid, email, hashedpassword]
         );
     
     if(result.rowCount>0){

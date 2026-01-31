@@ -8,7 +8,8 @@ const client = new OAuth2Client("786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.a
 const GoogleAuth=  async (req, res) => {
     const { token } = req.body;
     console.log("register from google is called");
-  // check and verify the token
+
+    // check and verify the token
     const checked = await client.verifyIdToken({
         idToken: token,
         check: "786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.apps.googleusercontent.com",
