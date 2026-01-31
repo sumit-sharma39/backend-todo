@@ -26,7 +26,7 @@ const Register = async (req, res) => {
 
         // Insert new user
         await database_conn.query(
-        "INSERT INTO accounts (user_id ,email, password) VALUES ($1, $2)",
+        "INSERT INTO accounts (user_id ,email, password) VALUES ($1, $2, $3)",
         [user_id , email, hashedPassword]
         );
         console.log("User registered  email");
