@@ -2,18 +2,19 @@ const database_conn = require("../Database/Database");
 const bcrypt = require("bcrypt");
 
 const Register = async (req, res) => {
+
+    console.log("Entered the register APi: ")
     try {
         console.log("req.body: " , req.body);
         const { user_id, email, password } = req.body;
 
         console.log("Register request received with email:", email);
-
-
+        console.log("user_id is: " , user_id);
 
         // Check if user already exists
         const check = await database_conn.query(
         "SELECT 1 FROM accounts WHERE email = $1",
-        [user_id]
+        [email]
         );
 
         if (check.rowCount > 0) {
