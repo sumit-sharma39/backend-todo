@@ -15,7 +15,7 @@ const LogGoogleAuth=  async (req, res) => {
     const email= payload.email;
 
     const result = await Database_conn.query(   
-        `SELECT * FROM accounts WHERE email=$1 `, [email]);
+        `SELECT * FROM accts WHERE email=$1 `, [email]);
 
     if (result.rows.length === 0) {
         return res.status(404).json({ msg: "User not registered" });

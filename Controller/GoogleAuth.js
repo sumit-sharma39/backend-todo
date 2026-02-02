@@ -23,7 +23,7 @@ const client = new OAuth2Client("786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.a
 
         // 2️⃣ Check if user exists
         const existing = await database_conn.query(
-        "SELECT user_id, email FROM accounts WHERE email = $1",
+        "SELECT user_id, email FROM accts WHERE email = $1",
         [email]
         );
 
@@ -35,8 +35,8 @@ const client = new OAuth2Client("786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.a
         // 4️⃣ If not exists → let DB generate user_id
         const result = await database_conn.query(
         `
-        INSERT INTO accounts (email, auth_provider)
-        VALUES ($1, 'google')
+        INSERT INTO accts (email)
+        VALUES ($1)
         RETURNING user_id, email
         `,
         [email]
