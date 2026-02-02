@@ -1,48 +1,54 @@
 const database_conn = require("../Database/Database");
 const { OAuth2Client } = require("google-auth-library");
-const bcrypt = require("bcrypt");
 
 // Google OAuth2 Client setup
 const client = new OAuth2Client("786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.apps.googleusercontent.com");
 
-const GoogleAuth=  async (req, res) => {
-    const { token } = req.body;
-    console.log("register from google is called");
+    const GoogleAuth = async (req, res) => {
+    try {
+        const { token } = req.body;
+        console.log("Google auth called");
 
-    // check and verify the token
-    const checked = await client.verifyIdToken({
+        // 1️⃣ Verify token
+        const ticket = await client.verifyIdToken({
         idToken: token,
-        check: "786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.apps.googleusercontent.com",
-    });
+        audience: "786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.apps.googleusercontent.com",
+        });
 
-    const payload = checked.getPayload();
-    const user_id = payload.sub; 
-    const email = payload.email;
-    const password = "google_user";
-    const saltRounds = 10;
-    const hashedpassword = await bcrypt.hash(password, saltRounds); // hashing of password
-    console.log("user_id is " , user_id);
+        const payload = ticket.getPayload();
+        const email = payload.email;
 
+        // ❌ REMOVED: payload.sub usage
+        // ❌ REMOVED: password hashing
 
-    const existing = await database_conn.query(
-      "SELECT user_id, email FROM accounts WHERE email = $1",
-      [email]
-    );
-
-    // 2. If exists → just login
-    if (existing.rows.length > 0) {
-      return res.status(200).json(existing.rows[0]);
-    }
-    // insert into database 
-    const result = await database_conn.query(
-        "INSERT INTO accounts(user_id, email, password) VALUES($1, $2 , $3)",
-        [ user_id,email, hashedpassword]
+        // 2️⃣ Check if user exists
+        const existing = await database_conn.query(
+        "SELECT user_id, email FROM accounts WHERE email = $1",
+        [email]
         );
-    
-    if(result.rowCount>0){
-        res.status(200).send("data stored successfully");
-    }
 
-}
+        // 3️⃣ If exists → login
+        if (existing.rows.length > 0) {
+        return res.status(200).json(existing.rows[0]);
+        }
+
+        // 4️⃣ If not exists → let DB generate user_id
+        const result = await database_conn.query(
+        `
+        INSERT INTO accounts (email, auth_provider)
+        VALUES ($1, 'google')
+        RETURNING user_id, email
+        `,
+        [email]
+        );
+
+        // 5️⃣ ALWAYS return user_id
+        return res.status(201).json(result.rows[0]);
+
+    } catch (err) {
+        console.error(err);
+        return res.status(401).json({ error: "Google authentication failed" });
+    }
+};
 
 module.exports = GoogleAuth;

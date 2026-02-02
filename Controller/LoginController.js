@@ -6,37 +6,33 @@ const Login = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-        return res.status(400).json({ error: "Missing credentials" });
+        return res.status(400).json({ error: "missing" });
         }
 
         const result = await database_conn.query(
-        "SELECT  password FROM accounts WHERE LOWER(email) = LOWER($1)",
+        "select user_id, password from accts where lower(email)=lower($1)",
         [email]
         );
 
         if (result.rowCount === 0) {
-        return res.status(401).json({ error: "Invalid credentials" });
-        }
-        
-        const user = result.rows[0];
-        if (!user.password) {
-        console.error("Password missing in DB for user:", email);
-        return res.status(500).json({ error: "Server configuration error" });
+        return res.status(401).json({ error: "invalid" });
         }
 
-        // Compare password 
-        const isMatch = await bcrypt.compare(password, user.password);
-        // console.log("PASSWORD MATCH:", isMatch);
+        const isMatch = await bcrypt.compare(
+        password,
+        result.rows[0].password
+        );
 
         if (!isMatch) {
-        return res.status(401).json({ error: "Invalid credentials" });
+        return res.status(401).json({ error: "invalid" });
         }
 
-        return res.status(200).json({ message: "Login successful" });
+        return res.status(200).json({
+        user_id: result.rows[0].user_id
+        });
 
-    } catch (error) {
-        console.error("Login error:", error);
-        return res.status(500).json({ error: "Internal Server Error" });
+    } catch {
+        return res.status(500).json({ error: "server" });
     }
 };
 

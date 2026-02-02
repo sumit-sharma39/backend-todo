@@ -2,18 +2,14 @@ const database_conn = require("../Database/Database");
 const bcrypt = require("bcrypt");
 
 const Register = async (req, res) => {
-
-    console.log("Entered the register APi: ")
     try {
-        console.log("req.body: " , req.body);
-        const { user_id, email, password } = req.body;
+        console.log("Entered Register API");
+        console.log("req.body:", req.body);
 
-        console.log("Register request received with email:", email);
-        console.log("user_id is: " , user_id);
+        const { email, password } = req.body;
 
-        // Check if user already exists
         const check = await database_conn.query(
-        "SELECT 1 FROM accounts WHERE email = $1",
+        "SELECT 1 FROM accts WHERE email = $1",
         [email]
         );
 
@@ -21,22 +17,24 @@ const Register = async (req, res) => {
         return res.status(409).json({ error: "User already exists" });
         }
 
-        // Hash password
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        // Insert new user
-        await database_conn.query(
-        "INSERT INTO accounts (user_id ,email, password) VALUES ($1, $2, $3)",
-        [user_id , email, hashedPassword]
-        );
-        console.log("User registered  email");
 
-        res.status(201).json({ msg: "User registered successfully" });
+        const result = await database_conn.query(
+        `
+        INSERT INTO accts (email, password)
+        VALUES ($1, $2)
+        RETURNING user_id, email
+        `,
+        [email, hashedPassword]
+        );
+
+        return res.status(201).json({ user_id: result.rows[0].user_id });
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ error: "Internal server error" });
     }
 };
 
