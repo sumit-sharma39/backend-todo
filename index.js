@@ -16,8 +16,9 @@ const Login = require("./Controller/LoginController");
 const Register = require("./Controller/ResgisterController");
 const GoogleAuth = require ("./Controller/GoogleAuth");
 const GoogleLogin = require ("./Controller/GoogleLogin");
-const auth = require("./Middleware/auth");
 
+
+const auth = require("./middleware/Auth");
 
 const app = express();
 
@@ -49,7 +50,7 @@ app.get("/Data",auth , Tasks_Display);
 app.get("/Task/:id" ,auth, Task_Display);
 
 
-app.get("/health", (req, res) =>{
+app.get("/health",auth , (req, res) =>{
     res.status(200).json({message:"okie"});
 });
 
