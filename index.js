@@ -26,14 +26,17 @@ const app = express();
 
 //middleswares.
 app.use(cors({
-    origin:[ "http://localhost:8000" , 
-        "frontend-todo-theta.vercel.app"],
+    origin: [
+        "http://localhost:5173",
+        "https://frontend-todo-theta.vercel.app"
+    ],
     credentials: true
 }));
 
+app.options("*", cors());
+
 app.use(express.json());
 app.use(cookieParser());
-
 
 //Roures of API
 
