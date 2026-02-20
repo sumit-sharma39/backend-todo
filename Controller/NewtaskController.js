@@ -1,9 +1,9 @@
 const Database_conn = require("../Database/Database");
 
 const New_task =  async (req, res) => {
-        const {title , description, Points, date ,completed , user_id} = req.body;
+        const {title , description, Points, date ,completed} = req.body;
         console.log("req.body=" , req.body)
-
+        const user_id = req.user.user_id;
         
         try{
         const query = `

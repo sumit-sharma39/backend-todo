@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 //linking of all the files.
 const New_task = require("./Controller/NewtaskController");
@@ -15,29 +16,37 @@ const Login = require("./Controller/LoginController");
 const Register = require("./Controller/ResgisterController");
 const GoogleAuth = require ("./Controller/GoogleAuth");
 const GoogleLogin = require ("./Controller/GoogleLogin");
+const auth = require("./Middleware/auth");
 
 
-const app= express();
+const app = express();
+
+
 
 //middleswares.
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
 app.use(express.json());
-
+app.use(cookieParser());
 
 
 //Roures of API
 
-app.post("/Login" , Login)
+app.post("/Login"  , Login)
 app.post("/Register" , Register);
 app.post("/Gregister" , GoogleAuth);
 app.post("/GoogleLogin" , GoogleLogin);
-app.post("/Add" , New_task);
-app.delete ("/Delete" , DeleteTask );
-app.post("/UploadImage/:id", Upload.single("image_url"), UploadImage);
-app.put("/Completed/:id" , TaskCompleted);
-app.patch("/UpdateTask/:id" , EditTask);
-app.get("/Data/:userId" , Tasks_Display);
-app.get("/Task/:id" , Task_Display);
+
+
+app.post("/Add" ,auth, New_task);
+app.delete ("/Delete/:id" ,auth, DeleteTask );
+app.post("/UploadImage/:id",auth, Upload.single("image_url"), UploadImage);
+app.put("/Completed/:id",auth , TaskCompleted);
+app.patch("/UpdateTask/:id",auth , EditTask);
+app.get("/Data",auth , Tasks_Display);
+app.get("/Task/:id" ,auth, Task_Display);
 
 
 app.get("/health", (req, res) =>{

@@ -2,7 +2,8 @@ const Database_conn = require("../Database/Database");
 
 const Tasks_Display = async (req, res) => {
     try {
-    const user_id = req.params.userId;
+    const user_id = req.user.user_id;
+    console.log("User ID from auth middleware:", user_id);
     console.log("tasks display user_id: " , user_id );
     const result = await Database_conn.query(`
       SELECT id, title, description, bullets, deadline, completed, image_url
