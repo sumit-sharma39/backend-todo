@@ -30,7 +30,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true // Required if your Google Login uses cookies or sessions
 }));
-app.options("/*", cors());
+
 
 app.use(express.json());
 app.use(cookieParser());
