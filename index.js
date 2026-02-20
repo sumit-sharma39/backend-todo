@@ -26,9 +26,11 @@ const app = express();
 
 //middleswares.
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin:[ "http://localhost:8000" , 
+        "frontend-todo-theta.vercel.app"],
     credentials: true
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -50,7 +52,7 @@ app.get("/Data",auth , Tasks_Display);
 app.get("/Task/:id" ,auth, Task_Display);
 
 
-app.get("/health",auth , (req, res) =>{
+app.get("/health", (req, res) =>{
     res.status(200).json({message:"okie"});
 });
 

@@ -40,8 +40,8 @@ const client = new OAuth2Client(
 
         res.cookie("token", jwtToken, {
         httpOnly: true,
-        secure: false, // true in production
-        sameSite: "lax",
+        secure: true, // true in production
+        sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000,
         });
         console.log("jwttoekn", jwtToken);
