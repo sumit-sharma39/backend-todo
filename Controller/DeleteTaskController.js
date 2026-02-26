@@ -1,4 +1,5 @@
-const Database_conn = require("../Database/Database")
+const Database_conn = require("../Database/Database");
+const logger = require("../utils/logger");
 
 const DeleteTask = async (req, res) => {
   const id = req.params.id;
@@ -16,8 +17,15 @@ const DeleteTask = async (req, res) => {
     if (result.rowCount === 0) {
       return res.status(404).json({ error: "Task not found" });
     }
+    logger.warn({
+            message: "task deleted",
+            user_id,
+            title
+            });
 
     return res.status(200).json({ message: "Task deleted successfully" });
+
+    
 
   } catch (err) {
     console.log("ERROR:", err);

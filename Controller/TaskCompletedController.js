@@ -1,4 +1,5 @@
 const Database_conn = require("../Database/Database");
+const logger = require("../utils/logger");
 
 const TaskCompleted = async (req, res) => {
     const id = Number(req.params.id);
@@ -8,9 +9,21 @@ const TaskCompleted = async (req, res) => {
     // console.log({query , value})
     await Database_conn.query(query , value);
 
+    logger.info({
+            message: "task completed",
+            user_id,
+            title
+            });
+
     res.status(200).json("status updated");
 
+
     }catch(err){
+        logger.error({
+            message: "task completion failed",
+            user_id,
+            title
+            });
         console.log("error=" , err);
         res.status(500).json({error: "Internal server error"});
     }

@@ -3,12 +3,13 @@ const Database_conn = require("../Database/Database");
 const Tasks_Display = async (req, res) => {
     try {
     const user_id = req.user.user_id;
-    console.log("User ID from auth middleware:", user_id);
-    console.log("tasks display user_id: " , user_id );
+    const gmail = req.user.email;
+    console.log("User ID:", user_id);
+    console.log("User Email:", gmail);
     const result = await Database_conn.query(`
       SELECT id, title, description, bullets, deadline, completed, image_url
       FROM task
-      WHERE user_id = $1
+      WHERE user_id = $1 
       ORDER BY id DESC;
     `,[user_id] );
     // console.log(result);

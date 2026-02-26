@@ -16,7 +16,9 @@ const Login = require("./Controller/LoginController");
 const Register = require("./Controller/ResgisterController");
 const GoogleAuth = require ("./Controller/GoogleAuth");
 const GoogleLogin = require ("./Controller/GoogleLogin");
-
+const ForgotPassword = require("./Controller/forgotpassword");
+const ResetPassword = require("./Controller/ResetPassword");
+const requestLogger = require("./middleware/requestLogger");
 
 const auth = require("./middleware/Auth");
 
@@ -26,7 +28,7 @@ const app = express();
 
 //middleswares.
 app.use(cors({
-  origin: 'https://frontend-todo-theta.vercel.app', // Your Vercel frontend URL
+  origin: ['https://frontend-todo-theta.vercel.app', "http://localhost:5173"], // Your Vercel frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true // Required if your Google Login uses cookies or sessions
 }));
@@ -35,14 +37,16 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-//Roures of API
+
+
+app.use(requestLogger);
 
 app.post("/Login"  , Login)
 app.post("/Register" , Register);
 app.post("/Gregister" , GoogleAuth);
 app.post("/GoogleLogin" , GoogleLogin);
-
-
+app.post("/forgot-password", ForgotPassword);
+app.post("/reset-password/:token", ResetPassword);
 app.post("/Add" ,auth, New_task);
 app.delete ("/Delete/:id" ,auth, DeleteTask );
 app.post("/UploadImage/:id",auth, Upload.single("image_url"), UploadImage);

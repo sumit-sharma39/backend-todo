@@ -1,6 +1,7 @@
 const database_conn = require("../Database/Database");
 const { OAuth2Client } = require("google-auth-library");
 const jwt = require("jsonwebtoken");
+const logger = require("../utils/logger");
 
 const client = new OAuth2Client(
     "786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.apps.googleusercontent.com"
@@ -33,7 +34,7 @@ const client = new OAuth2Client(
         const email = payload.email;
 
         let queryResult = await database_conn.query(
-        "SELECT user_id, email FROM accts WHERE email=$1",
+        "SELECT user_id, email FROM users WHERE email=$1",
         [email]
         );
 
@@ -42,9 +43,11 @@ const client = new OAuth2Client(
         if (queryResult.rowCount === 0) {
 
         const insertResult = await database_conn.query(
-            "INSERT INTO accts(email) VALUES($1) RETURNING user_id, email",
+            "INSERT INTO users(email) VALUES($1) RETURNING user_id, email",
             [email]
         );
+
+        
 
         user = insertResult.rows[0];
         }
@@ -77,12 +80,20 @@ const client = new OAuth2Client(
         maxAge: 24 * 60 * 60 * 1000,
         });
 
+        logger.info({
+            message: "registration successful",
+            });
+
         console.log("toen generated:", Token);
         return res.status(200).json({
         message: "Google login successful",
         });
 
     } catch (err) {
+
+        logger.info({
+            message: "registration failed",
+            });
         console.error("Google Auth Error:", err.message);
         return res.status(401).json({
         error: "Google authentication failed",

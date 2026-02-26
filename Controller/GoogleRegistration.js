@@ -21,7 +21,7 @@ const client = new OAuth2Client(
 
         // Check if user exists
         let result = await database_conn.query(
-        "SELECT user_id FROM accts WHERE email=$1",
+        "SELECT user_id FROM users WHERE email=$1",
         [email]
         );
 
@@ -30,7 +30,7 @@ const client = new OAuth2Client(
         if (result.rowCount === 0) {
         // Create new user
         const insert = await database_conn.query(
-            "INSERT INTO accts(email) VALUES($1) RETURNING user_id",
+            "INSERT INTO users(email) VALUES($1) RETURNING user_id",
             [email]
         );
         user = insert.rows[0];

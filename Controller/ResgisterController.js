@@ -1,6 +1,8 @@
 const database_conn = require("../Database/Database");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const logger = require("../utils/logger");
+
 const Register = async (req, res) => {
     try {
         console.log("Entered Register API");
@@ -8,8 +10,21 @@ const Register = async (req, res) => {
 
         const { email, password } = req.body;
 
+        const validatePassword = (password) => {
+            const regex =
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+]).{8,25}$/;
+            return regex.test(password);
+            };
+
+            if (!validatePassword(password)) {
+            return res.status(400).json({
+                error:
+                "Password must be 8-25 characters and include uppercase, lowercase, number, and special character",
+            });
+        }   
+
         const check = await database_conn.query(
-        "SELECT 1 FROM accts WHERE email = $1",
+        "SELECT 1 FROM users WHERE email = $1",
         [email]
         );
 
@@ -20,13 +35,15 @@ const Register = async (req, res) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         
-        const result = await database_conn.query(`INSERT INTO accts (email, password)
+        const result = await database_conn.query(`INSERT INTO users (email, password)
             VALUES ($1, $2)
             RETURNING user_id, email `,
             [email, hashedPassword]
         );
         
         console.log("email stored.")
+
+        
         const newUser = result.rows[0];
         
         const token = jwt.sign(
@@ -43,6 +60,12 @@ const Register = async (req, res) => {
         sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000
         });
+        // loggger of success 
+        logger.info({
+            message: "registration successful",
+            title
+            });
+
 
         console.log("token is: " , token);
         console.log("User registered with ID:", newUser.user_id);
@@ -52,6 +75,11 @@ const Register = async (req, res) => {
         // return res.status(201).json({ user_id: result.rows[0].user_id });
 
     } catch (err) {
+
+        logger.error({
+            message: "registration failed"
+            });
+
         console.error(err);
         return res.status(500).json({ error: "Internal server error" });
     }

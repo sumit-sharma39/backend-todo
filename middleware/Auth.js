@@ -6,6 +6,7 @@ const auth = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ error: "Not authenticated" });
   }
+  
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

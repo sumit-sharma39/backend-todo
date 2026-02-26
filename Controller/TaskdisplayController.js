@@ -1,4 +1,5 @@
 const Database_conn = require("../Database/Database");
+const logger = require("../utils/logger");
 
 const Task_Display = async (req, res) => {
   try {
@@ -19,6 +20,7 @@ const Task_Display = async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "task not found" });
     }
+
 
     res.status(200).json(result.rows[0]);
   } catch (err) {

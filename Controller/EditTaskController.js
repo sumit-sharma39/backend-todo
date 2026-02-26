@@ -1,4 +1,5 @@
 const Database_conn = require("../Database/Database");
+const logger = require("../utils/logger");
 
 const EditTask = async (req, res) => {
     const { id } = req.params;
@@ -39,6 +40,12 @@ const EditTask = async (req, res) => {
         if (result.rowCount === 0) {
         return res.status(404).json({ message: "Task not found" });
         }
+
+        logger.info({
+            message: "task updated",
+            user_id,
+            title
+            });
 
         res.json({
         message: "Task updated",
