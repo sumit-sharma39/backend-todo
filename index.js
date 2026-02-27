@@ -28,9 +28,10 @@ const app = express();
 
 //middleswares.
 app.use(cors({
-  origin: ['https://frontend-todo-theta.vercel.app', "http://localhost:5173"], // Your Vercel frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true // Required if your Google Login uses cookies or sessions
+        origin: ['https://frontend-todo-theta.vercel.app', "http://localhost:5173" , "https://frontend-todo-git-main-oyasumis-projects-e42852cf.vercel.app"], // Your Vercel frontend URL
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        credentials: true, // Required if your Google Login uses cookies or sessions
+        allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
 
