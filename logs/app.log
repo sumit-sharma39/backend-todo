@@ -42,3 +42,21 @@
 {"level":"error","message":"Login failed","timestamp":"2026-02-26T18:40:37.952Z"}
 {"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-26T18:41:11.156Z","url":"/Login"}
 {"level":"error","message":"Login failed","timestamp":"2026-02-26T18:41:12.247Z"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-26T18:41:29.098Z","url":"/Login"}
+{"level":"info","message":"login successful","timestamp":"2026-02-26T18:41:30.179Z"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:41:30.249Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:41:30.362Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-26T18:44:37.634Z","url":"/Add"}
+{"level":"info","message":"task created","timestamp":"2026-02-26T18:44:38.589Z","title":"nigga 1 ","user_id":"6"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:44:38.623Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:44:38.741Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-26T18:45:12.871Z","url":"/GoogleLogin"}
+{"level":"error","message":"login failed","timestamp":"2026-02-26T18:45:13.958Z"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-26T18:45:26.624Z","url":"/Gregister"}
+{"level":"info","message":"registration successful","timestamp":"2026-02-26T18:45:27.534Z"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:45:27.568Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:45:27.682Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:52:04.236Z","url":"/Task/49"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:52:05.191Z","url":"/Task/49"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:52:06.742Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:52:06.862Z","url":"/Data"}

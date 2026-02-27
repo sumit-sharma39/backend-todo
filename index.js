@@ -17,7 +17,7 @@ const Register = require("./Controller/ResgisterController");
 const GoogleAuth = require ("./Controller/GoogleAuth");
 const GoogleLogin = require ("./Controller/GoogleLogin");
 const ForgotPassword = require("./Controller/forgotpassword");
-const ResetPassword = require("./Controller/ResetPassword");
+const ResetPassword = require("./Controller/resetPassword");
 const requestLogger = require("./middleware/requestLogger");
 
 const auth = require("./middleware/Auth");
