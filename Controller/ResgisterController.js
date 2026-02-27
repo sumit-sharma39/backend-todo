@@ -62,8 +62,7 @@ const Register = async (req, res) => {
         });
         // loggger of success 
         logger.info({
-            message: "registration successful",
-            title
+            message: "registration successful"
             });
 
 
