@@ -60,3 +60,65 @@
 {"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:52:05.191Z","url":"/Task/49"}
 {"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:52:06.742Z","url":"/Data"}
 {"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-26T18:52:06.862Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T12:22:16.947Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-27T12:22:18.009Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","error":"Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to\n535 5.7.8  https://support.google.com/mail/?p=BadCredentials d9443c01a7336-2adfb6d5970sm55713305ad.80 - gsmtp","level":"error","message":"Password reset failed","timestamp":"2026-02-27T12:22:19.075Z"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T14:27:59.492Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-27T14:28:00.528Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-27T14:28:03.087Z","user_id":"4"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T14:31:50.153Z","url":"/reset-password/9758a060d7a7eb286bb085ce6e463db95ff544ac409ff31715721c6b067ee27e"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T14:32:41.009Z","url":"/reset-password/9758a060d7a7eb286bb085ce6e463db95ff544ac409ff31715721c6b067ee27e"}
+{"level":"error","message":"password reset failed","timestamp":"2026-02-27T14:32:42.032Z"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T14:33:20.867Z","url":"/reset-password/9758a060d7a7eb286bb085ce6e463db95ff544ac409ff31715721c6b067ee27e"}
+{"level":"error","message":"password reset failed","timestamp":"2026-02-27T14:33:22.063Z"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T15:15:16.784Z","url":"/reset-password/9758a060d7a7eb286bb085ce6e463db95ff544ac409ff31715721c6b067ee27e"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T15:15:31.097Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-27T15:15:31.998Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-27T15:15:36.055Z","user_id":"4"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T15:15:44.463Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-27T15:15:45.312Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-27T15:15:47.728Z","user_id":"4"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T15:16:04.301Z","url":"/reset-password/194728f079646a8723740e7aa198ca24b61182b674b4218f69a48783bb3c1887"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T15:16:19.837Z","url":"/reset-password/194728f079646a8723740e7aa198ca24b61182b674b4218f69a48783bb3c1887"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T15:23:55.583Z","url":"/reset-password/194728f079646a8723740e7aa198ca24b61182b674b4218f69a48783bb3c1887"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T15:50:52.594Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-27T15:50:53.757Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-27T15:50:56.725Z","user_id":"4"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T15:51:02.785Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-27T15:51:02.994Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-27T15:51:05.314Z","user_id":"4"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T15:51:45.176Z","url":"/reset-password/9eb6ecd234097eca8fb19579bda85aea2b7c5479ad5dde64d192bc09b3f2c242"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T17:06:55.666Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-27T17:06:56.766Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-27T17:06:59.276Z","user_id":"4"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T17:07:24.843Z","url":"/reset-password/42f7dbddb6032908bda34aefae922654eb87b060e303725fbd15ca8fc074eebf"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T17:07:34.341Z","url":"/reset-password/42f7dbddb6032908bda34aefae922654eb87b060e303725fbd15ca8fc074eebf"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-27T17:09:01.853Z","url":"/reset-password/42f7dbddb6032908bda34aefae922654eb87b060e303725fbd15ca8fc074eebf"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T09:38:51.602Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-28T09:38:52.674Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-28T09:38:55.632Z","user_id":"4"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T09:39:19.063Z","url":"/reset-password/d6fd43cbf3e626cb758dd6a4b648eae2ed87ecc5278c583a46978ca13f53ff97"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:02:24.032Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-28T10:02:25.341Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-28T10:02:27.808Z","user_id":"4"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:02:35.564Z","url":"/reset-password/d6fd43cbf3e626cb758dd6a4b648eae2ed87ecc5278c583a46978ca13f53ff97"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:02:48.967Z","url":"/reset-password/d6fd43cbf3e626cb758dd6a4b648eae2ed87ecc5278c583a46978ca13f53ff97"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:02:55.248Z","url":"/reset-password/d6fd43cbf3e626cb758dd6a4b648eae2ed87ecc5278c583a46978ca13f53ff97"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:03:07.928Z","url":"/forgot-password"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-28T10:03:09.219Z","user_id":"4"}
+{"email":"tanjiro55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-28T10:03:11.981Z","user_id":"4"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:03:22.064Z","url":"/reset-password/87a758f82e7729b5efb850458e34eb51f46c8e14b93dc63c6de1ecc39fb82670"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:07:42.392Z","url":"/forgot-password"}
+{"email":"karma55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-28T10:07:43.378Z","user_id":"1"}
+{"email":"karma55066@gmail.com","level":"info","message":"Password reset email sent","timestamp":"2026-02-28T10:07:46.476Z","user_id":"1"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:08:07.663Z","url":"/reset-password/1cc9f98dadee53045ccf1f770a500fc65ed268611d51fb1677bb1d41f5b45710"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:17:50.279Z","url":"/forgot-password"}
+{"email":"karma55066@gmail.com","level":"info","message":"Password reset requested","timestamp":"2026-02-28T10:17:51.186Z","user_id":"1"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:18:06.878Z","url":"/reset-password/801ce7d2c8d452d72855fcdbf8cf03c9c191ae452a1da4057213dcd4a611ec61"}
+{"level":"info","message":"password reset successful","timestamp":"2026-02-28T10:18:08.095Z"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"POST","timestamp":"2026-02-28T10:18:28.413Z","url":"/Login"}
+{"level":"info","message":"login successful","timestamp":"2026-02-28T10:18:29.593Z"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-28T10:18:29.644Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-28T10:18:29.650Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-28T10:23:52.865Z","url":"/Data"}
+{"ip":"::1","level":"info","message":"Incoming Request","method":"GET","timestamp":"2026-02-28T10:23:52.870Z","url":"/Data"}

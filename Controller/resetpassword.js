@@ -12,31 +12,31 @@ const ResetPassword = async (req, res) => {
         return res.status(400).json({ error: "Token and password required" });
         }
 
-        // Hash the token to match DB
+        // Hash incoming token (must match hashed value stored in DB)
         const hashedToken = crypto
         .createHash("sha256")
         .update(token)
         .digest("hex");
 
-        // Find user with valid token and not expired
+        // Find user by token ONLY (expiry checked separately for clarity)
         const result = await database_conn.query(
-        `SELECT user_id 
+        `SELECT user_id, reset_password_expires
         FROM users
-        WHERE reset_password_token = $1
-        AND reset_password_expires > NOW()`,
+        WHERE reset_password_token = $1`,
         [hashedToken]
         );
 
         if (result.rowCount === 0) {
-        return res.status(400).json({ error: "Invalid or expired token" });
+        return res.status(400).json({ error: "Invalid token" });
         }
 
-        logger.info({
-            message: "password reset attempt",
-            user_id,
-            title
-            });
         const user = result.rows[0];
+        console.log("DB expiry ISO:", new Date(user.reset_password_expires).toISOString());
+console.log("Server now ISO:", new Date().toISOString());
+        // Check expiry explicitly in JS
+        if (!user.reset_password_expires || new Date(user.reset_password_expires) < new Date()) {
+        return res.status(400).json({ error: "Token expired" });
+        }
 
         // Hash new password
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -50,20 +50,13 @@ const ResetPassword = async (req, res) => {
         WHERE user_id = $2`,
         [hashedPassword, user.user_id]
         );
-        logger.info({
-            message: "password reset successful",
-            user_id,
-            title
-            });
+
+        logger.info({ message: "password reset successful" });
 
         return res.json({ message: "Password successfully reset" });
 
     } catch (error) {
-        logger.error({
-            message: "password reset failed",
-            user_id,
-            title
-            });
+        logger.error({ message: "password reset failed" });
         console.error("Reset Password Error:", error);
         return res.status(500).json({ error: "Server error" });
     }

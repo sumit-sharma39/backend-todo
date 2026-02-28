@@ -35,26 +35,29 @@ const ForgotPassword = async (req, res) => {
       .update(rawToken)
       .digest("hex");
 
+    // ✅ Generate expiry in Node (UTC safe)
+    const expires = new Date(Date.now() + 15 * 60 * 1000);
+
     // Store token + expiry
-    await database_conn.query(
+    const updateResult = await database_conn.query(
       `UPDATE users
        SET reset_password_token = $1,
-           reset_password_expires = NOW() + INTERVAL '15 minutes'
-       WHERE user_id = $2`,
-      [hashedToken, user.user_id]
+           reset_password_expires = $2
+       WHERE user_id = $3
+       RETURNING reset_password_expires`,
+      [hashedToken, expires, user.user_id]
     );
 
-    // Log reset request
+    console.log("New expiry from Node:", expires.toISOString());
+
     logger.info({
       message: "Password reset requested",
       user_id: user.user_id,
       email: email,
     });
 
-    // Create reset link
     const resetLink = `http://localhost:5173/reset-password/${rawToken}`;
 
-    // Send email
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
@@ -68,26 +71,17 @@ const ForgotPassword = async (req, res) => {
       `,
     });
 
-    // Log success
-    logger.info({
-      message: "Password reset email sent",
-      user_id: user.user_id,
-      email: email,
-    });
-
     return res.json({
       message: "If account exists, reset link has been sent.",
     });
 
   } catch (error) {
-
     logger.error({
       message: "Password reset failed",
       email: email,
       error: error.message,
     });
 
-    console.error("Forgot Password Error:", error);
     return res.status(500).json({ error: "Server error" });
   }
 };
