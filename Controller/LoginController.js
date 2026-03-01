@@ -28,10 +28,15 @@ const Login = async (req, res) => {
 
         //  Account lock check
         if (user.account_locked_until && new Date(user.account_locked_until) > new Date()) {
-        return res.status(403).json({
-            error: "Account locked. Try again later."
-        });
-        }
+
+                const remainingTime = Math.ceil(
+                    (new Date(user.account_locked_until) - new Date()) / 60000
+                );
+
+                return res.status(403).json({
+                    error: `Account locked. Try again in ${remainingTime} minute(s).`
+                });
+            }
 
         const isMatch = await bcrypt.compare(password, user.password);
 
@@ -39,14 +44,21 @@ const Login = async (req, res) => {
         const attempts = (user.failed_login_attempts || 0) + 1;
 
         if (attempts >= 5) {
-            await database_conn.query(
-            `UPDATE users
-            SET failed_login_attempts = $1,
-                account_locked_until = NOW() + INTERVAL '15 minutes'
-            WHERE user_id = $2`,
-            [attempts, user.user_id]
-            );
-        } else {
+                const lockTime = 15;
+
+                await database_conn.query(
+                    `UPDATE users
+                    SET failed_login_attempts = $1,
+                        account_locked_until = NOW() + INTERVAL '15 minutes'
+                    WHERE user_id = $2`,
+                    [attempts, user.user_id]
+                );
+
+                return res.status(403).json({
+                    error: `Too many failed attempts. Account locked for ${lockTime} minutes.`
+                });
+            }
+        else {
             await database_conn.query(
             `UPDATE users
             SET failed_login_attempts = $1
@@ -92,15 +104,25 @@ const Login = async (req, res) => {
         return res.status(200).json({
         user_id: user.user_id
         });
+        
 
-    } catch (error) {
-        // logging failed login attempt
+    } catch (err) {
         logger.error({
             message: "Login failed",
         });
-        console.error(error);
-        return res.status(500).json({ error: "Server error" });
+    if (err.response?.status === 401) {
+        alert("Invalid credentials");
     }
+    else if (err.response?.status === 403) {
+        alert(err.response.data.error);
+    }
+    else if (err.response?.status === 404) {
+        navigate("/register");
+    }
+    else {
+        alert("Login failed");
+    }
+}
 };
 
 module.exports = Login;
