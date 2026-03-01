@@ -56,7 +56,7 @@ const ForgotPassword = async (req, res) => {
       email: email,
     });
 
-    const resetLink = `http://localhost:5173/reset-password/${rawToken}`;
+    const resetLink = `https://frontend-todo-theta.vercel.app/reset-password/${rawToken}`;
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
