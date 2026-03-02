@@ -96,6 +96,8 @@ const Login = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000
         });
 
+                console.log("Token generated:", Token);
+
         // logging successful login
         logger.info({
             message: "login successful"

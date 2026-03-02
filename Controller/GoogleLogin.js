@@ -47,7 +47,7 @@ const client = new OAuth2Client(
         sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000,
         });
-        console.log("jwttoekn", jwtToken);
+        console.log("jwttoken", jwtToken);
 
         logger.info({
             message: "login successful",
