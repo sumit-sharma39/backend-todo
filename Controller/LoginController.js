@@ -113,17 +113,25 @@ const Login = async (req, res) => {
             message: "Login failed",
         });
     if (err.response?.status === 401) {
-        alert("Invalid credentials");
-    }
-    else if (err.response?.status === 403) {
-        alert(err.response.data.error);
-    }
-    else if (err.response?.status === 404) {
-        navigate("/register");
-    }
-    else {
-        alert("Login failed");
-    }
+    return res.status(401).json({
+        error: "Invalid credentials"
+    });
+}
+else if (err.response?.status === 403) {
+    return res.status(403).json({
+        error: err.response?.data?.error || "Forbidden"
+    });
+}
+else if (err.response?.status === 404) {
+    return res.status(404).json({
+        error: "User not found"
+    });
+}
+else {
+    return res.status(500).json({
+        error: "Login failed"
+    });
+}
 }
 };
 
