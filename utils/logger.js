@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const logDir = path.join(__dirname, "../logs");
-
+console.log("Log directory:", logDir);
 // ensure logs folder exists
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir);
@@ -22,7 +22,7 @@ const logger = createLogger({
 
         // all logs
         new transports.File({
-            filename: path.join(logDir, "app.log")
+            filename: path.join(logDir, "apps.log")
         }),
 
         // error logs
