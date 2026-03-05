@@ -14,8 +14,6 @@ const uploadImages = async (req, res) => {
     
 
     const imageUrl = req.file.path;
-    console.log("imageurl: " , imageUrl);
-    console.log("file: " , req.file);
     const result = await database_conn.query(
     `update task
     set image_url = $1
