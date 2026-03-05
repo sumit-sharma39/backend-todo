@@ -3,17 +3,23 @@ const bcrypt = require("bcrypt");
 const logger = require("../utils/logger");
 const jwt = require("jsonwebtoken");
 
+const MAX_ATTEMPTS = 5;
+const LOCK_TIME = 15; // minutes
+
 const Login = async (req, res) => {
     try {
+
         const { email, password } = req.body;
 
         if (!email || !password) {
-        return res.status(400).json({ error: "Missing credentials" });
+        return res.status(400).json({
+            error: "Email and password are required"
+        });
         }
 
         const result = await database_conn.query(
-        `SELECT user_id, email, password, 
-                failed_login_attempts, 
+        `SELECT user_id, email, password,
+                failed_login_attempts,
                 account_locked_until
         FROM users
         WHERE lower(email) = lower($1)`,
@@ -21,56 +27,63 @@ const Login = async (req, res) => {
         );
 
         if (result.rowCount === 0) {
-        return res.status(401).json({ error: "Invalid credentials" });
+        return res.status(401).json({
+            error: "Invalid email or password"
+        });
         }
 
         const user = result.rows[0];
 
-        //  Account lock check
-        if (user.account_locked_until && new Date(user.account_locked_until) > new Date()) {
+        // CHECK IF ACCOUNT LOCKED
+        if (
+        user.account_locked_until &&
+        new Date(user.account_locked_until) > new Date()
+        ) {
 
-                const remainingTime = Math.ceil(
-                    (new Date(user.account_locked_until) - new Date()) / 60000
-                );
+        const remainingTime = Math.ceil(
+            (new Date(user.account_locked_until) - new Date()) / 60000
+        );
 
-                return res.status(403).json({
-                    error: `Account locked. Try again in ${remainingTime} minute(s).`
-                });
-            }
+        return res.status(403).json({
+            error: `Account locked. Try again in ${remainingTime} minute(s).`
+        });
+        }
 
+        // CHECK PASSWORD
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
+
         const attempts = (user.failed_login_attempts || 0) + 1;
 
-        if (attempts >= 5) {
-                const lockTime = 15;
+        if (attempts >= MAX_ATTEMPTS) {
 
-                await database_conn.query(
-                    `UPDATE users
-                    SET failed_login_attempts = $1,
-                        account_locked_until = NOW() + INTERVAL '15 minutes'
-                    WHERE user_id = $2`,
-                    [attempts, user.user_id]
-                );
-
-                return res.status(403).json({
-                    error: `Too many failed attempts. Account locked for ${lockTime} minutes.`
-                });
-            }
-        else {
             await database_conn.query(
+            `UPDATE users
+            SET failed_login_attempts = 0,
+                account_locked_until = NOW() + INTERVAL '${LOCK_TIME} minutes'
+            WHERE user_id = $1`,
+            [user.user_id]
+            );
+
+            return res.status(403).json({
+            error: `Too many failed attempts. Account locked for ${LOCK_TIME} minutes.`
+            });
+        }
+
+        await database_conn.query(
             `UPDATE users
             SET failed_login_attempts = $1
             WHERE user_id = $2`,
             [attempts, user.user_id]
-            );
+        );
+
+        return res.status(401).json({
+            error: `Invalid email or password. Attempt ${attempts}/${MAX_ATTEMPTS}`
+        });
         }
 
-        return res.status(401).json({ error: "Invalid credentials" });
-        }
-
-        // Reset failed attempts after successful login
+        // SUCCESS LOGIN → RESET ATTEMPTS
         await database_conn.query(
         `UPDATE users
         SET failed_login_attempts = 0,
@@ -92,43 +105,27 @@ const Login = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000
         });
 
-                console.log("Token generated:", Token);
-
-        // logging successful login
         logger.info({
-            message: "login successful"
-            });
-
-        return res.status(200).json({
+        message: "User login successful",
         user_id: user.user_id
         });
-        
+
+        return res.status(200).json({
+        message: "Login successful",
+        user_id: user.user_id
+        });
 
     } catch (err) {
+
         logger.error({
-            message: "Login failed",
+        message: "Login error",
+        error: err.message
         });
-    if (err.response?.status === 401) {
-    return res.status(401).json({
-        error: "Invalid credentials"
-    });
-}
-else if (err.response?.status === 403) {
-    return res.status(403).json({
-        error: err.response?.data?.error || "Forbidden"
-    });
-}
-else if (err.response?.status === 404) {
-    return res.status(404).json({
-        error: "User not found"
-    });
-}
-else {
-    return res.status(500).json({
-        error: "Login failed"
-    });
-}
-}
+
+        return res.status(500).json({
+        error: "Internal server error"
+        });
+    }
 };
 
 module.exports = Login;
