@@ -5,84 +5,96 @@ const logger = require("../utils/logger");
 
 const Register = async (req, res) => {
     try {
-        console.log("Entered Register API");
-        console.log("req.body:", req.body);
 
         const { email, password } = req.body;
 
+        if (!email || !password) {
+        return res.status(400).json({
+            error: "Email and password are required"
+        });
+        }
+
         const validatePassword = (password) => {
-            const regex =
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+]).{8,25}$/;
-            return regex.test(password);
-            };
+        const regex =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+]).{8,25}$/;
+        return regex.test(password);
+        };
 
-            if (!validatePassword(password)) {
-            return res.status(400).json({
-                error:
-                "Password must be 8-25 characters and include uppercase, lowercase, number, and special character",
-            });
-        }   
+        if (!validatePassword(password)) {
+        return res.status(400).json({
+            error:
+            "Password must be 8–25 characters and include uppercase, lowercase, number and special character"
+        });
+        }
 
+        // CHECK IF USER EXISTS
         const check = await database_conn.query(
-        "SELECT 1 FROM users WHERE email = $1",
+        "SELECT user_id FROM users WHERE lower(email) = lower($1)",
         [email]
         );
 
         if (check.rowCount > 0) {
-        return res.status(409).json({ message: "User already exists" });
+
+        logger.warn("Registration attempt with existing email", {
+            email: email,
+            ip: req.ip
+        });
+
+        return res.status(409).json({
+            error: "User already exists. Please login."
+        });
         }
 
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        
-        const result = await database_conn.query(`INSERT INTO users (email, password)
-            VALUES ($1, $2)
-            RETURNING user_id, email `,
-            [email, hashedPassword]
-        );
-        
-        console.log("email stored.")
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        
+        const result = await database_conn.query(
+        `INSERT INTO users (email, password)
+        VALUES ($1, $2)
+        RETURNING user_id, email`,
+        [email, hashedPassword]
+        );
+
         const newUser = result.rows[0];
-        
+
         const token = jwt.sign(
-        { user_id: newUser.user_id, 
+        {
+            user_id: newUser.user_id,
             email: newUser.email
-         },
+        },
         process.env.JWT_SECRET,
         { expiresIn: "1d" }
         );
 
         res.cookie("token", token, {
         httpOnly: true,
-        secure: false, // true in production
-        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000
         });
 
-                console.log("Token generated:", Token);
-        // loggger of success 
-        logger.info({
-            message: "registration successful"
-            });
+        logger.info("User registration successful", {
+        user_id: newUser.user_id,
+        email: newUser.email,
+        ip: req.ip
+        });
 
-
-        console.log("token is: " , token);
-        console.log("User registered with ID:", newUser.user_id);
-        return res.status(201).json({ message: "Registered successfully" });
-
-
-        // return res.status(201).json({ user_id: result.rows[0].user_id });
+        return res.status(201).json({
+        message: "Registration successful",
+        user_id: newUser.user_id
+        });
 
     } catch (err) {
 
-        logger.error({
-            message: "registration failed"
-            });
+        logger.error("Registration controller error", {
+        error: err.message,
+        stack: err.stack,
+        email: req.body?.email,
+        ip: req.ip
+        });
 
-        console.error(err);
-        return res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({
+        error: "Internal server error"
+        });
     }
 };
 

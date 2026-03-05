@@ -4,55 +4,69 @@ const jwt = require("jsonwebtoken");
 const logger = require("../utils/logger");
 
 const client = new OAuth2Client(
-    "786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.apps.googleusercontent.com"
+    process.env.GOOGLE_CLIENT_ID
     );
 
     const LogGoogleAuth = async (req, res) => {
     try {
         const { token } = req.body;
 
+        if (!token) {
+        logger.warn({
+            message: "Google login attempted without token",
+            ip: req.ip,
+        });
+
+        return res.status(400).json({ msg: "Token missing" });
+        }
+
         const ticket = await client.verifyIdToken({
         idToken: token,
-        audience:
-            "786543282178-rlt210nnkolu2r6fiiajtudt2j54je1v.apps.googleusercontent.com",
+        audience: process.env.GOOGLE_CLIENT_ID,
         });
 
         const payload = ticket.getPayload();
-        const email = payload.email;
+        const email = payload.email?.trim();
 
         const result = await Database_conn.query(
-        "SELECT user_id FROM users WHERE email=$1",
+        "SELECT user_id, email FROM users WHERE email=$1",
         [email]
         );
 
         if (result.rows.length === 0) {
+        logger.warn({
+            message: "Google login attempted with unregistered email",
+            email,
+            ip: req.ip,
+        });
+
         return res.status(404).json({ msg: "User not registered" });
         }
-
-        
 
         const user = result.rows[0];
 
         const jwtToken = jwt.sign(
-        { user_id: user.user_id,
-          email: result.rows[0].email
-         },
+        {
+            user_id: user.user_id,
+            email: user.email,
+        },
         process.env.JWT_SECRET,
         { expiresIn: "1d" }
         );
 
         res.cookie("token", jwtToken, {
         httpOnly: true,
-        secure: true, // true in production
+        secure: process.env.NODE_ENV === "production",
         sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000,
         });
-        console.log("jwttoken", jwtToken);
 
         logger.info({
-            message: "login successful",
-            title
-            });
+        message: "Google login successful",
+        user_id: user.user_id,
+        email: user.email,
+        ip: req.ip,
+        });
 
         return res.status(200).json({
         msg: "Google login successful",
@@ -60,13 +74,15 @@ const client = new OAuth2Client(
 
     } catch (err) {
 
-
         logger.error({
-            message: "login failed",
-            });
-        console.log("errors: ", err);
+        message: "Google authentication failed",
+        error: err.message,
+        stack: err.stack,
+        ip: req.ip,
+        });
+
         return res.status(401).json({ msg: "Google authentication failed" });
     }
-    };
+};
 
 module.exports = LogGoogleAuth;
