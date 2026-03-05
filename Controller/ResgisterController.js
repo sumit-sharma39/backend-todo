@@ -60,6 +60,8 @@ const Register = async (req, res) => {
         sameSite: "strict",
         maxAge: 24 * 60 * 60 * 1000
         });
+
+                console.log("Token generated:", Token);
         // loggger of success 
         logger.info({
             message: "registration successful"

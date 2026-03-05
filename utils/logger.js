@@ -1,13 +1,35 @@
 const { createLogger, format, transports } = require("winston");
+const fs = require("fs");
+const path = require("path");
+
+const logDir = path.join(__dirname, "../logs");
+
+// ensure logs folder exists
+if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir);
+}
 
 const logger = createLogger({
     level: "info",
     format: format.combine(
-        format.timestamp(),
+        format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+        format.errors({ stack: true }),
         format.json()
     ),
     transports: [
-        new transports.File({ filename: "logs/app.log" })
+        // console logs (important for production)
+        new transports.Console(),
+
+        // all logs
+        new transports.File({
+            filename: path.join(logDir, "app.log")
+        }),
+
+        // error logs
+        new transports.File({
+            filename: path.join(logDir, "error.log"),
+            level: "error"
+        })
     ]
 });
 

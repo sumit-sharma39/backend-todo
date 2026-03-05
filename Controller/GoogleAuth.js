@@ -79,6 +79,7 @@ const client = new OAuth2Client(
         sameSite: "none",
         maxAge: 24 * 60 * 60 * 1000,
         });
+        console.log("Token generated:", Token);
 
         logger.info({
             message: "registration successful",
