@@ -3,6 +3,7 @@ const database_conn = require("../Database/Database");
 const uploadImages = async (req, res) => {
   try {
     const id = Number(req.params.id);
+    console.log("id: ", id);
     // console.log(id);
     if(!id){
         return res.status(400).json({error: "Id imvalid"});
