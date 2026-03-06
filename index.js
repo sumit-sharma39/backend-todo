@@ -57,6 +57,17 @@ app.get("/Data",auth , Tasks_Display);
 app.get("/Task/:id" ,auth, Task_Display);
 
 
+app.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None"
+  });
+
+  res.json({ success: true });
+});
+
+
 app.get("/health", (req, res) =>{
     res.status(200).json({message:"okie"});
 });
