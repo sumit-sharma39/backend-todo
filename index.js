@@ -29,7 +29,7 @@ const app = express();
 //middleswares.
 app.use(cors({
         origin: ['https://frontend-todo-theta.vercel.app', "http://localhost:5173" , "https://frontend-todo-git-main-oyasumis-projects-e42852cf.vercel.app"], // Your Vercel frontend URL
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS' , 'PATCH'],
         credentials: true, // Required if your Google Login uses cookies or sessions
         allowedHeaders: ["Content-Type", "Authorization"]
 }));
