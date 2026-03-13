@@ -8,6 +8,7 @@ console.log("Log directory:", logDir);
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir);
 }
+console.log("Logger initialized, logs will be stored in:", logDir);
 
 const logger = createLogger({
     level: "info",
@@ -18,18 +19,18 @@ const logger = createLogger({
     ),
     transports: [
         // console logs (important for production)
-        new transports.Console(),
+        // new transports.Console(),
 
-        // all logs
-        new transports.File({
-            filename: path.join(logDir, "apps.log")
-        }),
+        // // all logs
+        // new transports.File({
+        //     filename: path.join(logDir, "apps.log")
+        // }),
 
-        // error logs
-        new transports.File({
-            filename: path.join(logDir, "error.log"),
-            level: "error"
-        })
+        // // error logs
+        // new transports.File({
+        //     filename: path.join(logDir, "error.log"),
+        //     level: "error"
+        // })
     ]
 });
 
