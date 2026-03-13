@@ -5,6 +5,7 @@ const logger = require("../utils/logger");
 
 const ForgotPassword = async (req, res) => {
   const { email } = req.body;
+  console.log("Received forgot password request for email:", email);
 
   if (!email) {
     logger.warn({
