@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-    service: ["gmail" , "outlook" , "yahoo" , "hotmail"] ,
+    service: "gmail",
     host: "smtp.gmail.com",
     port: 587,
     secure: false,
