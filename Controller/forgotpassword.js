@@ -72,7 +72,7 @@ const ForgotPassword = async (req, res) => {
       expires_at: expires
     });
 
-    const resetLink = `https://frontend-todo-theta.vercel.app/reset-password/${rawToken}`;
+    const resetLink = `https://frontend-todo-git-main-oyasumis-projects-e42852cf.vercel.app/reset-password/${rawToken}`;
 
     try {
 
