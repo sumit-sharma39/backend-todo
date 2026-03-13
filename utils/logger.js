@@ -18,7 +18,7 @@ const logger = createLogger({
     ),
     transports: [
         // console logs (important for production)
-        new transports.Console(),
+        // new transports.Console(),
 
         // all logs
         new transports.File({
