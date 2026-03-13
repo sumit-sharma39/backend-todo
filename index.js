@@ -68,10 +68,6 @@ app.post("/logout", (req, res) => {
 });
 
 
-app.get("/health", (req, res) =>{
-    res.status(200).json({message:"okie"});
-});
-
 const PORT = 8000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
