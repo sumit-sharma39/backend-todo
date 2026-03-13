@@ -17,7 +17,7 @@ const ResetPassword = async (req, res) => {
         return res.status(400).json({ error: "Token and password required" });
         }
 
-        // Hash incoming token (must match hashed value stored in DB)
+        // Hash incoming token 
         const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
         // Find user by token
