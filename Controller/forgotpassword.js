@@ -53,6 +53,9 @@ const ForgotPassword = async (req, res) => {
 
     const expires = new Date(Date.now() + 15 * 60 * 1000);
 
+    console.log("Generated reset token for user_id:", user.user_id, "expires at:", expires); 
+    console.log("rawtoken  is: "  , rawToken)
+
     await database_conn.query(
       `UPDATE users
         SET reset_password_token = $1,
@@ -69,7 +72,7 @@ const ForgotPassword = async (req, res) => {
       expires_at: expires
     });
 
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${rawToken}`;
+    const resetLink = `https://frontend-todo-theta.vercel.app/reset-password/${rawToken}`;
 
     try {
 
