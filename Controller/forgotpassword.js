@@ -37,7 +37,7 @@ const ForgotPassword = async (req, res) => {
       });
 
       return res.json({
-        message: "Reset link has been sent to your gmail , Please check your index for the reset link"
+        message: "The account doesn't exist please register first"
       });
     }
 
