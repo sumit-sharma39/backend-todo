@@ -36,7 +36,7 @@ const ForgotPassword = async (req, res) => {
       });
 
       return res.json({
-        message: "If account exists, reset link has been sent."
+        message: "Reset link has been sent to your gmail , Please check your index for the reset link"
       });
     }
 
@@ -54,9 +54,9 @@ const ForgotPassword = async (req, res) => {
 
     await database_conn.query(
       `UPDATE users
-       SET reset_password_token = $1,
-           reset_password_expires = $2
-       WHERE user_id = $3`,
+        SET reset_password_token = $1,
+        reset_password_expires = $2
+        WHERE user_id = $3`,
       [hashedToken, expires, user.user_id]
     );
 
@@ -108,7 +108,7 @@ const ForgotPassword = async (req, res) => {
     }
 
     return res.json({
-      message: "If account exists, reset link has been sent."
+      message: "Reset link has been sent to your gmail , Please check your index for the reset link"
     });
 
   } catch (error) {
