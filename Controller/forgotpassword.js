@@ -72,7 +72,7 @@ const ForgotPassword = async (req, res) => {
       expires_at: expires
     });
 
-    const resetLink = `https://frontend-todo-git-main-oyasumis-projects-e42852cf.vercel.app/reset-password/${rawToken}`;
+    const resetLink = `https://frontend-todo-theta.vercel.app/reset-password/${rawToken}`;
 
     try {
 
@@ -80,6 +80,7 @@ const ForgotPassword = async (req, res) => {
         from: process.env.EMAIL_USER,
         to: normalizedEmail,
         subject: "Password Reset Request",
+
         html: `
           <h3>Password Reset</h3>
           <p>You requested to reset your password.</p>
@@ -87,6 +88,7 @@ const ForgotPassword = async (req, res) => {
           <a href="${resetLink}">${resetLink}</a>
           <p>This link expires in 15 minutes.</p>
         `
+        
       });
 
       logger.info({
