@@ -18,19 +18,19 @@ const logger = createLogger({
         format.json()
     ),
     transports: [
-        // console logs (important for production)
-        // new transports.Console(),
+        //console logs (important for production)
+        new transports.Console(),
 
-        // // all logs
-        // new transports.File({
-        //     filename: path.join(logDir, "apps.log")
-        // }),
+        // all logs
+        new transports.File({
+            filename: path.join(logDir, "apps.log")
+        }),
 
-        // // error logs
-        // new transports.File({
-        //     filename: path.join(logDir, "error.log"),
-        //     level: "error"
-        // })
+        // error logs
+        new transports.File({
+            filename: path.join(logDir, "error.log"),
+            level: "error"
+        })
     ]
 });
 
