@@ -67,6 +67,10 @@ app.post("/logout", (req, res) => {
   res.json({ success: true });
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 
 const PORT = 8000;
 app.listen(PORT, () => {
