@@ -1,6 +1,6 @@
 const database_conn = require("../Database/Database");
 const crypto = require("crypto");
-const transporter = require("../utils/mailer");
+const resend = require("../utils/mailer");
 const logger = require("../utils/logger");
 
 const ForgotPassword = async (req, res) => {
@@ -12,14 +12,12 @@ const ForgotPassword = async (req, res) => {
       action: "FORGOT_PASSWORD_FAILED",
       message: "Email not provided in request"
     });
-
     return res.status(400).json({ error: "Email required" });
   }
 
   const normalizedEmail = email.trim().toLowerCase();
 
   try {
-
     const result = await database_conn.query(
       `SELECT user_id, email 
        FROM users 
@@ -27,15 +25,12 @@ const ForgotPassword = async (req, res) => {
       [normalizedEmail]
     );
 
-    // Prevent account enumeration
     if (result.rowCount === 0) {
-
       logger.warn({
         action: "FORGOT_PASSWORD_ATTEMPT",
         message: "Password reset requested for non-existing account",
         email: normalizedEmail
       });
-
       return res.json({
         message: "The account doesn't exist please register first"
       });
@@ -43,9 +38,7 @@ const ForgotPassword = async (req, res) => {
 
     const user = result.rows[0];
 
-    // Generate secure reset token
     const rawToken = crypto.randomBytes(32).toString("hex");
-
     const hashedToken = crypto
       .createHash("sha256")
       .update(rawToken)
@@ -53,8 +46,8 @@ const ForgotPassword = async (req, res) => {
 
     const expires = new Date(Date.now() + 15 * 60 * 1000);
 
-    console.log("Generated reset token for user_id:", user.user_id, "expires at:", expires); 
-    console.log("rawtoken  is: "  , rawToken)
+    console.log("Generated reset token for user_id:", user.user_id, "expires at:", expires);
+    // ⚠️ Remove the rawToken console.log before going to production!
 
     await database_conn.query(
       `UPDATE users
@@ -75,12 +68,10 @@ const ForgotPassword = async (req, res) => {
     const resetLink = `https://frontend-todo-theta.vercel.app/reset-password/${rawToken}`;
 
     try {
-
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
+      await resend.emails.send({                  // ← changed from transporter.sendMail
+        from: "onboarding@resend.dev",            // ← use this until you add your own domain
         to: normalizedEmail,
         subject: "Password Reset Request",
-
         html: `
           <h3>Password Reset</h3>
           <p>You requested to reset your password.</p>
@@ -88,7 +79,6 @@ const ForgotPassword = async (req, res) => {
           <a href="${resetLink}">${resetLink}</a>
           <p>This link expires in 15 minutes.</p>
         `
-        
       });
 
       logger.info({
@@ -99,7 +89,6 @@ const ForgotPassword = async (req, res) => {
       });
 
     } catch (mailError) {
-
       logger.error({
         action: "RESET_EMAIL_FAILED",
         message: "Failed to send password reset email",
@@ -107,25 +96,22 @@ const ForgotPassword = async (req, res) => {
         email: normalizedEmail,
         error: mailError.message
       });
-
       return res.status(500).json({
         error: "Unable to send reset email"
       });
     }
 
     return res.json({
-      message: "Reset link has been sent to your gmail , Please check your index for the reset link"
+      message: "Reset link has been sent to your email, please check your inbox"  // ← fixed "index" typo
     });
 
   } catch (error) {
-
     logger.error({
       action: "FORGOT_PASSWORD_ERROR",
       message: "Unexpected error in forgot password",
       email: normalizedEmail,
       error: error.message
     });
-
     return res.status(500).json({
       error: "Server error"
     });

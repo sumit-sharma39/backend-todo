@@ -1,30 +1,5 @@
-const nodemailer = require("nodemailer");
-const dns = require("dns");
+const { Resend } = require("resend");
 
-dns.setDefaultResultOrder("ipv4first");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-   port: 465,        // ← change from 587 to 465
-    secure: true,
-
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    },
-
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000
-    });
-
-    // Verify connection (non-blocking)
-    transporter.verify((error) => {
-    if (error) {
-        console.log("SMTP CONNECTION ERROR:", error);
-    } else {
-        console.log("SMTP SERVER IS READY TO SEND EMAILS");
-    }
-});
-
-module.exports = transporter;
+module.exports = resend;
