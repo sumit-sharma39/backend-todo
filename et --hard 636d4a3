@@ -1,0 +1,75 @@
+[33m636d4a3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m added gitignore
+[33ma0798d9[m first commit
+[33m7b9f7d9[m fix gitignore
+[33mec0df8e[m first commit
+[33m944161b[m add node_modules and .env to gitignore
+[33mf96aa96[m remove .env from tracking
+[33md074c18[m fixed mailer
+[33md8222a5[m[33m ([m[1;31morigin/main[m[33m)[m mailer for Ipv4
+[33mbfd98fb[m fixed logger
+[33m67ce1ac[m fixed mailer.js
+[33m7ef7448[m fixed mailer
+[33md98e599[m fixed mailer
+[33m1e53be0[m check mailer
+[33md08d88b[m removed log
+[33me2d06f4[m fixed FE-URL
+[33m4779429[m checking mail
+[33m3e2572c[m checking mail
+[33mb537e4f[m changed URL
+[33mb77afbd[m changed URL
+[33mc099700[m fixed forgotpass
+[33mf016f11[m removed /health
+[33m88303e4[m fixed mailer
+[33m21fe8a1[m changed response
+[33mac52ec1[m changed response
+[33m5b6de64[m test forgotpass
+[33m602633a[m fixed mail service
+[33m9328d44[m fixed mail service
+[33m3259a53[m Add cookies destroy
+[33md0047b8[m added patch
+[33maff9c59[m fixed image upload
+[33m19a6147[m enhanced logger
+[33m468caa5[m enhanced logger
+[33m1e87e10[m enhanced logger
+[33mbd9fe08[m enhanced logger
+[33m312e188[m enhanced auth
+[33mfe209db[m fixed loginctrllr
+[33ma6674ad[m fixed logger
+[33m82f30ec[m fixed alert
+[33m7b134e1[m removed console logger print
+[33m0b5a034[m fixed mailer
+[33m874c96b[m fixed logincontroller
+[33m9010d94[m fixed forgotpassword
+[33m244b0f8[m fixed forgot/reset
+[33m6e28ed1[m cookies fixed
+[33m7f335d3[m fixed title err
+[33md027998[m fixed cors 1
+[33mff620c8[m fixed resetpassword case
+[33mfd05218[m fixed resetpassword case
+[33m4e21e2c[m added forgot , fixed display
+[33m2e60bcb[m DB table name
+[33m8a5e91f[m cors fix 3
+[33m227faec[m cors fix 2
+[33mb13b1f2[m cors fix 1
+[33m13d2bab[m cookies
+[33mab36217[m cookies
+[33m4e032bd[m cookies
+[33mfc99dc1[m cookies
+[33m1db83f8[m task display
+[33maa1f92c[m fix1
+[33m7af3f42[m final fix
+[33md8d22b6[m final fix
+[33m32fd40d[m register
+[33m375e076[m register
+[33m30cdac3[m register fix
+[33m0243c4c[m register fix
+[33ma5ac896[m register fix
+[33m7418dc0[m google auth
+[33m7109ff1[m google auth
+[33mab760d6[m google auth
+[33m2e983e0[m google auth
+[33md57b743[m google auth
+[33m9229f42[m google auth
+[33m236367a[m google auth
+[33m4d288db[m google auth
+[33m42f6042[m first commit
