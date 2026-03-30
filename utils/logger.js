@@ -2,13 +2,15 @@ const { createLogger, format, transports } = require("winston");
 const fs = require("fs");
 const path = require("path");
 
-const logDir = path.join(__dirname, "../logs");
-console.log("Log directory:", logDir);
-// ensure logs folder exists
-if (!fs.existsSync(logDir)) {
-    fs.mkdirSync(logDir);
+const isProduction = process.env.NODE_ENV === "production";
+
+// Only create logs folder locally
+if (!isProduction) {
+    const logDir = path.join(__dirname, "../logs");
+    if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir);
+    }
 }
-console.log("Logger initialized, logs will be stored in:", logDir);
 
 const logger = createLogger({
     level: "info",
@@ -18,19 +20,26 @@ const logger = createLogger({
         format.json()
     ),
     transports: [
-        //console logs (important for production)
+        // Always log to console
         new transports.Console(),
 
-        // all logs
-        new transports.File({
-            filename: path.join(logDir, "apps.log")
-        }),
+        // Local file logging (development only)
+        ...(!isProduction ? [
+            new transports.File({
+                filename: path.join(__dirname, "../logs/apps.log")
+            }),
+            new transports.File({
+                filename: path.join(__dirname, "../logs/error.log"),
+                level: "error"
+            })
+        ] : []),
 
-        // error logs
-        new transports.File({
-            filename: path.join(logDir, "error.log"),
-            level: "error"
-        })
+        // Betterstack (production only)
+        ...(isProduction && process.env.BETTERSTACK_TOKEN ? [
+            new (require("winston-transport-betterstack"))({
+                sourceToken: process.env.BETTERSTACK_TOKEN
+            })
+        ] : [])
     ]
 });
 
